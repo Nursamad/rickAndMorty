@@ -4,37 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp">
+    android:layout_margin="8dp"
+    android:background="@color/light_blue">
+
 
     <ImageView
         android:id="@+id/iv_character"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:src="@drawable/ic_person"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/ic_launcher_round" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_status"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/iv_character"
         app:layout_constraintTop_toTopOf="@id/iv_character"
-        tools:text="Rick" />
+        tools:text="Name" />
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_character"
         app:layout_constraintStart_toEndOf="@id/iv_character"
         app:layout_constraintTop_toBottomOf="@id/tv_name"
         tools:text="Status" />

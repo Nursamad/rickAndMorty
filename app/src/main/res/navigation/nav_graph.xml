@@ -12,12 +12,28 @@
         tools:layout="@layout/fragment_characters">
         <action
             android:id="@+id/action_charactersFragment_to_characterDetailFragment"
-            app:destination="@id/characterDetailFragment" />
+            app:destination="@id/characterDetailFragment" >
+
+            <argument android:name="characterId"
+                app:argType="integer"
+                app:nullable="false"
+
+                />
+
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/characterDetailFragment"
         android:name="kg.geektech.rickandmortyapp.ui.character_detail.CharacterDetailFragment"
         android:label="fragment_character_detail"
-        tools:layout="@layout/fragment_character_detail" />
+        tools:layout="@layout/fragment_character_detail" >
+
+        <argument android:name="characterId"
+            app:argType="integer"
+            app:nullable="false"
+
+            />
+    </fragment>
+
 </navigation>

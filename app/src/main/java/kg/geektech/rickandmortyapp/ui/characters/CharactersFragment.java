@@ -7,22 +7,32 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import kg.geektech.rickandmortyapp.R;
 import kg.geektech.rickandmortyapp.common.Resource;
 import kg.geektech.rickandmortyapp.data.models.Character;
 import kg.geektech.rickandmortyapp.data.models.RickAndMortyResponse;
 import kg.geektech.rickandmortyapp.databinding.FragmentCharactersBinding;
 
-public class CharactersFragment extends Fragment {
+@AndroidEntryPoint
+public class CharactersFragment extends Fragment implements OnItemClickListener {
     private FragmentCharactersBinding binding;
     private CharacterViewModel viewModel;
     private CharactersAdapter adapter;
+    private NavController controller;
+
+
+    public CharactersFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +40,11 @@ public class CharactersFragment extends Fragment {
 
         adapter = new CharactersAdapter();
         viewModel = new ViewModelProvider(requireActivity()).get(CharacterViewModel.class);
+        adapter.setOnItemClickListener(this);
         viewModel.getCharacters();
+        NavHostFragment hostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host);
+        controller = hostFragment.getNavController();
     }
 
     @Override
@@ -46,25 +60,31 @@ public class CharactersFragment extends Fragment {
 
         binding.rvCharacters.setAdapter(adapter);
         viewModel.liveData.observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status){
-                case SUCCESS:{
+            switch (resource.status) {
+                case SUCCESS: {
                     binding.rvCharacters.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
                     adapter.setCharacters(resource.data.getResults());
                     break;
                 }
-                case ERROR:{
+                case ERROR: {
                     binding.rvCharacters.setVisibility(View.GONE);
                     binding.progressBar.setVisibility(View.GONE);
                     Log.e("TAG", "onChanged: " + resource.message);
                     break;
                 }
-                case LOADING:{
+                case LOADING: {
                     binding.rvCharacters.setVisibility(View.GONE);
                     binding.progressBar.setVisibility(View.VISIBLE);
                     break;
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(Character character) {
+        controller.navigate(CharactersFragmentDirections.
+                actionCharactersFragmentToCharacterDetailFragment(character.getId()));
     }
 }

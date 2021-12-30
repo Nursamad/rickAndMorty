@@ -19,6 +19,11 @@ import kg.geektech.rickandmortyapp.databinding.ItemCharacterBinding;
 public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder> {
     private ItemCharacterBinding binding;
     private List<Character> characters;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public CharactersAdapter() {
         characters = new ArrayList<>();
@@ -40,6 +45,9 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Ch
     @Override
     public void onBindViewHolder(@NonNull CharacterViewHolder holder, int position) {
         holder.onBind(characters.get(position));
+        holder.itemView.setOnClickListener(v->{
+onItemClickListener.onClick(characters.get(holder.getAdapterPosition()));
+        });
     }
 
     @Override
